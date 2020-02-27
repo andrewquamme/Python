@@ -5,11 +5,16 @@ I'm a UArizona student and my professor uses his own website over D2L. As a resu
 
 I spent a few hours writing this script to solve my problem. It scrapes the class website for announcements and tries to insert them into a MySQL database. If there is an error, the announcement is passed. If it goes in, then the announcement is assumed to be new and the text content of that announcement is texted to my phone via Twilio.
 
+This script is set to run once per hour on my Raspberry Pi at home on my desk. The Pi also has a LAMP server, facilitating the MySQL database.
+
 ## Required Libraries
 `BeautifulSoup`  
 `requests`  
 `twilio`  
 `mysql-connector`
+
+## Future Ideas
+The code can definitely be cleaned up. I've done almost no error handling. I'd like to add code to check for existing databases and/or tables and create them if they're not available.
 
 ## Screenshots
 ![alt text](img/website.jpg "Class website")  
