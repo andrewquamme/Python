@@ -14,7 +14,7 @@ This script is set to run once per hour on my Raspberry Pi at home on my desk. T
 `mysql-connector`
 
 ## Future Ideas
-The code can definitely be cleaned up. I've done almost no error handling. I'd like to add code to check for existing databases and/or tables and create them if they're not available.
+The code can definitely be cleaned up. I've done almost no error handling. I'd like to add code to check for existing databases and/or tables and create them if they're not available. He will also post assignments without an announcement, so that could cause problems.
 
 ## Screenshots
 ![alt text](img/website.jpg "Class website")  
