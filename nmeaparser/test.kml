@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Paths</name>
+    <description>This is GPS Line</description>
+    <Style id="Line0">
+      <LineStyle>
+        <color>ccff0000</color>
+        <width>4</width>
+      </LineStyle>
+    </Style>
+    <Style id="Line1">
+      <LineStyle>
+        <color>ccffffff</color>
+        <width>4</width>
+      </LineStyle>
+    </Style>
+    <Placemark>
+      <name>Path 0</name>
+      <description></description>
+      <styleUrl>#Line0</styleUrl>
+      <LineString>
+        <coordinates>
+111.207723,32.447403,601.900000
+        </coordinates>
+      </LineString>
+    </Placemark>
+  </Document>
+</kml>
