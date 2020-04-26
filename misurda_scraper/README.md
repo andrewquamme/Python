@@ -8,7 +8,7 @@ I spent a few hours writing this script to solve my problem. It scrapes the clas
 This script is set to run once per hour on my Raspberry Pi at home on my desk. The Pi also has a LAMP server, facilitating the MySQL database.
 
 ## Required Libraries
-`BeautifulSoup`  
+`beautifulsoup4`  
 `requests`  
 `twilio`  
 `mysql-connector`
