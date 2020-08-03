@@ -12,7 +12,7 @@
 from sys import argv
 
 def extract_fields(instruction):
-    # print("Instruction:",instruction)
+    print("Instruction:",instruction)
     instruction = int(instruction, 16)
     fields = {
         "opcode": (instruction >> 26) & 0x3f, # bit [31-26]
@@ -25,56 +25,80 @@ def extract_fields(instruction):
         "address": instruction & 0x03ffffff,  # bit [25- 0]
         # "imm32": signExtend16to32(instruction & 0xffff)
     }
-
+    print(fields)
     return fields
 
 
 def get_reg(reg):
-    regs = {
-        0:  "$zero",
-        1:  "$at",
-        2:  "$v0",
-        3:  "$v1",
-        4:  "$a0",
-        8:  "$t0",
-        16: "$s0",
-        17: "$s1",
-        18: "$s2",
-        19: "$s3",
-        20: "$s4",
-        21: "$s5",
-        24: "$t8",
-        26: "$k0",
-        27: "$k1",
-        28: "$gp",
-        29: "$sp",
-        30: "$fp",
-        31: "$ra"
-    }
-    return regs.get(reg, "$--")
+
+    regs =[ 
+    "$zero", "$at", "$v0", "$v1", "$a0",
+    "$a1",   "$a2", "$a3", "$t0", "$t1",
+    "$t2",   "$t3", "$t4", "$t5", "$t6",
+    "$t7",   "$s0", "$s1", "$s2", "$s3",
+    "$s4",   "$s5", "$s6", "$s7", "$t8",
+    "$t9",   "$k0", "$k1", "$gp", "$sp",
+    "$fp",   "$ra" ]
+
+    return regs[reg]
 
 
 def print_mips(fields):
-    instruction = ""
+    instruction = "Not a valid (yet?) instruction"
 
-    if   fields['opcode'] == 0:
+    opcode = fields['opcode']
+    rs     = get_reg(fields['rs'])
+    rt     = get_reg(fields['rt'])
+    imm16  = hex(fields['imm16'])
 
-        if   fields['funct'] == 32:
-            instruction = "add\t"
+    if   opcode == 0: # R-Type
+        funct = fields['funct']
+        rd    = get_reg(fields['rd'])
 
-        elif fields['funct'] == 33:
-            instruction = "addu\t"
+        if   funct == 0: # sll
+            instruction = f"sll\t{rd}, {rt}, {fields['shamt']}"
 
-        elif fields['funct'] == 34:
-            instruction = "sub\t"
+        if   funct == 32: # add
+            instruction = f"add\t{rd}, {rs}, {rt}"
 
-        instruction += f"{get_reg(fields['rd'])}, {get_reg(fields['rs'])}, {get_reg(fields['rt'])}"
+        elif funct == 33: # addu
+            instruction = f"addu\t{rd}, {rs}, {rt}"
 
-    elif fields['opcode'] == 13:
-        instruction = f"ori\t{get_reg(fields['rt'])}, {fields['rs']}, {fields['imm']}"
+        elif funct == 34: # sub
+            instruction = f"sub\t{rd}, {rs}, {rt}"
+        
+        elif funct == 35: # subu
+            instruction = f"subu\t{rd}, {rs}, {rt}"
+        
+        elif funct == 38: # xor
+            instruction = f"xor\t{rd}, {rs}, {rt}"
+        
+        elif funct == 43: # sub
+            instruction = f"sltu\t{rd}, {rs}, {rt}"
 
-    elif fields['opcode'] == 43:
-        instruction = f"sw\t{get_reg(fields['rt'])}, {fields['imm16']}({get_reg(fields['rs'])})"
+    elif opcode == 4: # beq
+        instruction = f"beq\t{rs}, {rt}, {imm16}"
+
+    elif opcode == 8: # addi
+        instruction = f"addi\t{rt}, {rs}, {imm16}"
+    
+    elif opcode == 10: # slti
+        instruction = f"slti\t{rt}, {rs}, {imm16}"
+
+    elif opcode == 13: # ori
+        instruction = f"ori\t{rt}, {rs}, {imm16}"
+    
+    elif opcode == 32: # lb
+        instruction = f"lb\t{rt}, {imm16}({rs})"
+    
+    elif opcode == 35: # lw
+        instruction = f"lw\t{rt}, {imm16}({rs})"
+    
+    elif opcode == 41: # sh
+        instruction = f"sh\t{rt}, {imm16}({rs})"
+
+    elif opcode == 43: # sw
+        instruction = f"sw\t{rt}, {imm16}({rs})"
 
     print(instruction)
 
